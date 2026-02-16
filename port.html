@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vijayalaxmi Ingalahalli | AI & Data Science Portfolio</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --card-bg: #161b22;
+            --primary-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            --text-main: #e6edf3;
+            --text-dim: #ccd6f6;
+            --highlight-gold: #ffcc00;
+            --highlight-cyan: #00f2ff;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 80px 0; }
+
+        /* --- Navigation Bar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(11, 14, 20, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--highlight-cyan); }
+
+        /* --- Section Titles with Restored Underline --- */
+        .section-title {
+            font-size: 2.8rem; margin-bottom: 40px; color: #fff; font-weight: 700;
+            border-left: 5px solid #00d2ff; padding-left: 20px; display: inline-block;
+            transition: var(--transition); cursor: default; position: relative;
+        }
+        .section-title:hover { color: #00f2ff; text-shadow: 0 0 15px rgba(0, 242, 255, 0.7); transform: translateX(15px); }
+        
+        /* RESTORED UNDERLINE LOGIC */
+        .section-title::after { 
+            content: ''; 
+            position: absolute; 
+            bottom: -10px; 
+            left: 20px; 
+            width: 60px; /* Initial small width */
+            height: 4px; 
+            background: linear-gradient(90deg, #00d2ff, #a855f7); 
+            transition: width 0.4s ease; 
+            border-radius: 2px; 
+        }
+        .section-title:hover::after { width: 100%; }
+
+        /* --- Name & Text Styles --- */
+        .my-name { font-size: 3.5rem; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-block; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .my-name:hover { transform: scale(1.05); filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.8)); }
+        .aspiring-text { font-size: 1.6rem; color: #ffffff; margin-bottom: 20px; }
+        .aspiring-text .word-aspiring { color: var(--highlight-gold); font-weight: 700; }
+        .aspiring-text .word-highlight { color: var(--highlight-cyan); font-weight: 700; }
+
+        /* --- Buttons --- */
+        .btn-group { display: flex; gap: 15px; margin-top: 30px; }
+        .btn { padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: var(--transition); display: inline-block; }
+        .btn-primary { background: #fff; color: #000; }
+        .btn-outline { border: 2px solid #00d2ff; color: #00d2ff; background: rgba(0, 210, 255, 0.1); }
+        .btn-resume { border: 2px solid #a855f7; color: #a855f7; background: rgba(168, 85, 247, 0.1); }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3); }
+
+        /* --- Experience Section: Shimmer & Scale --- */
+        .exp-card { 
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid #30363d; 
+            margin-bottom: 20px; 
+            transition: all 0.5s ease; 
+            position: relative;
+            overflow: hidden;
+        }
+        .exp-card:hover { 
+            border-color: var(--highlight-cyan); 
+            transform: scale(1.02) translateY(-10px);
+            background: rgba(22, 27, 34, 0.95);
+            box-shadow: 0 15px 35px rgba(0, 242, 255, 0.2);
+        }
+        .exp-card::after {
+            content: ""; position: absolute; top: -50%; left: -60%; width: 20%; height: 200%;
+            background: rgba(255, 255, 255, 0.08); transform: rotate(30deg);
+            transition: 0.7s;
+        }
+        .exp-card:hover::after { left: 120%; }
+        
+        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .exp-company { color: var(--highlight-cyan); font-weight: 700; font-size: 1.3rem; }
+        .exp-pos { color: var(--highlight-gold); font-style: italic; }
+
+        /* --- Skills Section --- */
+        .skills-flex { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+        .skill-tag { background: #1c2128; border: 1px solid #30363d; padding: 10px 18px; border-radius: 6px; display: flex; align-items: center; gap: 8px; transition: 0.3s; color: white; }
+        .skill-tag i { color: var(--highlight-cyan); }
+        .skill-tag:hover { border-color: var(--highlight-cyan); background: #252d38; transform: scale(1.05); }
+        
+        /* --- Unified Card Style (Projects, Skills, Certs) --- */
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+        
+        /* --- Unified Card Style Updated for Zoom Effect --- */
+        .box-card {
+            min-height: 320px; 
+            border-radius: 12px; 
+            position: relative; 
+            overflow: hidden;
+            display: flex; 
+            align-items: flex-end; 
+            border: 1px solid #30363d;
+            /* Update background-size and transition for zoom */
+            background-size: 100%; 
+            background-position: center; 
+            background-repeat: no-repeat;
+            transition: transform 0.6s ease, background-size 0.6s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            background-color: var(--card-bg);
+        }
+        .box-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 30%, transparent 100%);
+            z-index: 1;
+        }
+        .box-card:hover { 
+            /* This creates the zoom effect on the background image */
+            background-size: 115%; 
+            transform: translateY(-10px); 
+            border-color: var(--highlight-cyan); 
+            box-shadow: 0 15px 30px rgba(0, 210, 255, 0.3); 
+        }
+       
+        
+        .box-info { position: relative; z-index: 2; padding: 20px; width: 100%; }
+        .box-tag { background: var(--highlight-cyan); color: #000; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+
+
+        /* --- Projects: Visible Images & Tilt Effect --- */
+        .projects-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 30px; 
+            margin-top: 20px;
+        }
+        .project-card {
+            min-height: 380px; border-radius: 12px; position: relative; overflow: hidden;
+            display: flex; align-items: flex-end; border: 1px solid rgba(3, 1, 1, 0.907);
+            background-size: 100%; background-position: center; transition: all 0.6s ease;
+        }
+        .project-card:hover {
+            background-size: 115%; transform: translateY(-12px);
+            border-color: var(--highlight-cyan); box-shadow: 0 15px 40px rgba(0, 210, 255, 0.4);
+        }
+        .project-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 20%, transparent 100%);
+        }
+        .project-info { position: relative; z-index: 2; padding: 20px; width: 100%; transition: 0.4s; }
+        .project-card:hover .project-info { background: rgba(22, 195, 230, 0.15); }
+        .project-tag { background: var(--highlight-cyan); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+       
+
+        /* --- Contact Form --- */
+        .looking-highlight { color: var(--highlight-cyan); font-weight: 700; font-size: 1.2rem; display: block; margin-bottom: 20px; }
+        .contact-form { background: #161b22; padding: 30px; border-radius: 12px; border: 1px solid #30363d; }
+        .contact-form input, .contact-form textarea {
+            width: 100%; background: #0d1117; border: 1px solid #444; padding: 12px;
+            color: white; border-radius: 6px; margin-bottom: 15px; font-family: inherit;
+        }
+
+        /* --- Chatbot: High Contrast Visibility --- */
+        .chat-trigger { 
+            position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px;
+            background: var(--highlight-cyan); border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; cursor: pointer; z-index: 2001;
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.6); border: 2px solid #fff;
+            transition: 0.3s;
+        }
+        .chat-trigger i { color: #0b0e14 !important; font-size: 1.8rem; }
+
+        #chat-widget { 
+            position: fixed; bottom: 100px; right: 25px; width: 350px; height: 500px; 
+            background: #1c2128; border: 2px solid var(--highlight-cyan); border-radius: 15px; 
+            display: none; flex-direction: column; z-index: 2001; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); overflow: hidden;
+        }
+        .chat-header { 
+            background: var(--highlight-cyan); padding: 15px; font-weight: 800; 
+            color: #0b0e14; display: flex; justify-content: space-between; align-items: center;
+        }
+        .chat-messages { padding:15px; flex-grow:1; overflow-y:auto; background: #0d1117; color: white; }
+        .chat-messages p { margin-bottom: 10px; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.05); border-left: 3px solid var(--highlight-cyan); }
+        .chat-input-area { padding: 15px; border-top: 1px solid #333; background: #1c2128; display: flex; }
+        #chat-in { width: 100%; padding: 10px; background: #0b0e14; color: white; border: 1px solid var(--highlight-cyan); border-radius: 5px; outline: none; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 900px) { .projects-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <div style="font-weight:700; color:var(--highlight-cyan); letter-spacing: 1px;">VIJAYALAXMI</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certs">Certifications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="vanta-bg" style="position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></div>
+
+    <div class="container">
+        <section id="home" style="min-height: 100vh; display: flex; align-items: center; justify-content: space-between;">
+            <div class="hero-content">
+                <h1 class="my-name">Vijayalaxmi Ingalahalli</h1>
+                <h2 class="aspiring-text">
+                    <span class="word-aspiring">Aspiring</span> <span class="word-highlight">Data Analyst</span> | 
+                    <span class="word-aspiring"></span> <span class="word-highlight">AI Engineer</span>
+                </h2>
+                <p class="tagline" style="color: #fff; background: rgba(0,210,255,0.1); display: inline-block; padding: 5px 15px; border-radius: 4px; border: 1px solid rgba(0,210,255,0.3);">Data-Driven Thinker | AI Enthusiast</p>
+                <div class="btn-group">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+                <div style="margin-top: 20px;">
+                    <a href="vijayalaxmi n ingalahalli (1) (1).pdf" class="btn btn-resume"><i class="fas fa-download"></i> Download Resume</a>
+                </div>
+            </div>
+            <div class="hero-image-container"><div class="hero-image" style="width: 300px; height: 300px; border-radius: 50%; border: 4px solid var(--highlight-cyan); background-image: url('me.jpg'); background-size: cover; box-shadow: 0 0 30px rgba(0,210,255,0.3);"></div></div>
+        </section>
+
+        <section id="about">
+            <h2 class="section-title reveal">About Me</h2>
+            <p class="about-description reveal" style="color: #bbdefb; font-size: 1.1rem; max-width: 900px;">
+                I am a highly motivated and detail-oriented **Artificial Intelligence and Data Science** graduate. I have a strong foundation in Python, data analysis, and machine learning concepts.
+                <br><br>
+                I am passionate about building intelligent systems and transforming raw data into meaningful insights. As a fresher, I am eager to contribute to innovative, data-driven solutions.
+            </p>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title reveal">Technical Skills</h2>
+            <div class="grid-layout">
+                <div class="box-card reveal" style="background-image: url('Mysql-python.png');">
+                    <div class="box-info">
+                        <span class="box-tag">Language</span>
+                        <h3>Python & SQL</h3>
+                    </div>
+                </div>
+                <div class="box-card reveal" style="background-image: url('html.jpg');">
+                    <div class="box-info">
+                        <span class="box-tag">Frontend</span>
+                        <h3>HTML, CSS & JS</h3>
+                    </div>
+                </div>
+                <div class="box-card reveal" style="background-image: url('powerbi.jpg');">
+                    <div class="box-info">
+                        <span class="box-tag">Visualization</span>
+                        <h3>Power BI & Tableau</h3>
+                    </div>
+                </div>
+                <div class="box-card reveal" style="background-image: url('unnamed.jpg');">
+                    <div class="box-info">
+                        <span class="box-tag">AI/ML</span>
+                        <h3>Machine Learning</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title reveal">Work Experience</h2>
+            
+            <div class="exp-card reveal">
+                <div class="exp-header">
+                    <span class="exp-company">Wizzybox Private Limited</span>
+                    <span class="exp-pos">AI Engineer Intern</span>
+                </div>
+                <p>I have been selected as an AI Engineer Intern at Wizzy Box and have recently started my internship journey. I look forward to gaining hands-on experience in Artificial Intelligence and Machine Learning, working on real-world projects, and enhancing my skills.</p>
+            </div>
+
+            <div class="exp-card reveal">
+                <div class="exp-header">
+                    <span class="exp-company">1M1B</span>
+                    <span class="exp-pos">Sustainability AI Engineer Intern</span>
+                </div>
+                <p>Selected for the 1M1B – AI for Sustainability Virtual Internship, gaining hands-on experience in AI/ML, LLMs, and RAG frameworks. Exploring how AI can drive climate action and sustainable cities while designing AI-powered solutions.</p>
+            </div>
+        </section>
+
+                <section id="projects">
+            <h2 class="section-title reveal">Featured Projects</h2>
+            <div class="projects-grid">
+                
+                <div class="project-card reveal" style="background-image: url('excel.jpg');">
+                    <div class="project-info">
+                        <span class="project-tag">java/Spring Boot</span>
+                        <h3 style="margin-top:10px;">Excel to JSON Converter</h3>
+                        <p style="color: var(--text-dim); margin: 15px 0;">REST-based Spring Boot application that converts Excel (XLS/XLSX) files into structured JSON using Apache POI and Jackson.</p>
+                        <p><strong>Outcome:</strong>improving data integration efficiency for web applications.</p>
+                        
+
+                    </div>
+                </div>
+
+                <div class="project-card reveal" style="background-image: url('heart.jpg');">
+                    <div class="project-info">
+                        <span class="project-tag">Deep Learning/Health</span>
+                        <h3 style="margin-top:10px;">Heart Disease Detection</h3>
+                        <p style="color: var(--text-dim); margin: 15px 0;">Developed a Heart Disease Detection System using CNN and pre-trained models like VGG to classify ECG images into normal and abnormal categories.</p>
+                        <p><strong>Outcome:</strong> classifies ECG images to assist in early diagnosis and clinical decision-making.</p>
+                        <div class="btn-group">
+                            <a href="https://github.com/vijayalaxmiingalahalli/Heart-Disease-Detection" class="btn btn-primary" style="padding: 8px 15px; font-size: 0.8rem;">GitHub</a>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div class="project-card reveal" style="background-image: url('images.jpg');">
+                    <div class="project-info">
+                        <span class="project-tag">NLP</span>
+                        <h3 style="margin-top:10px;">Resume Screening</h3>
+                        <p style="color: var(--text-dim); margin: 15px 0;">AI-based Resume Screening System using NLP and Machine Learning to automatically classify resumes into relevant job categories.</p>
+                        <p><strong>Outcome:</strong>Improved recruitment efficiency by enabling automated, accurate, and faster resume classification.</p>
+                        <div class="btn-group">
+                            <a href="https://github.com/vijayalaxmiingalahalli/resume-screening" class="btn btn-primary" style="padding: 8px 15px; font-size: 0.8rem;">GitHub</a>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div class="project-card reveal" style="background-image: url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=600');">
+                    <div class="project-info">
+                        <span class="project-tag">Random Forest</span>
+                        <h3 style="margin-top:10px;">Crop Recommendation</h3>
+                         <p style="color: var(--text-dim); margin: 15px 0;">Smart Crop Recommendation System using Machine Learning (Random Forest) to suggest suitable crops based on soil nutrients and climatic conditions.</p>
+                        <p><strong>Outcome:</strong> Achieved high prediction accuracy, enabling data-driven farming decisions that improve yield and promote sustainable agriculture.</p>
+                        <div class="btn-group">
+                            <a href="https://github.com/vijayalaxmiingalahalli/crop-recommendation-system" class="btn btn-primary" style="padding: 8px 15px; font-size: 0.8rem;">GitHub</a>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+        <section id="certs">
+            <h2 class="section-title reveal">Certifications</h2>
+            <div class="grid-layout">
+                <div class="box-card reveal" style="background-image: url('microsoft british council.jpg');">
+                    <div class="box-info">
+                        <span class="box-tag">Soft Skills</span>
+                        <h3>Communication for Workplace</h3>
+                    </div>
+                </div>
+                <div class="box-card reveal" style="background-image: url('deliotte internship.jpg');">
+                    <div class="box-info">
+                        <span class="box-tag">Analytics</span>
+                        <h3>Data Analytics - Forage</h3>
+                    </div>
+                </div>
+                <div class="box-card reveal" style="background-image: url('ai certificate.png');">
+                    <div class="box-info">
+                        <span class="box-tag">Professional</span>
+                        <h3>AI Certification</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="contact">
+            <h2 class="section-title reveal">Get In Touch</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px;">
+                <div>
+                    <span class="looking-highlight">I am currently looking for new opportunities!</span>
+                    <p style="margin-bottom: 10px;"><strong>Mobile:</strong> +91 8151027937</p>
+                    <p style="margin-bottom: 20px;"><strong>Email:</strong> vijayalaxmiingalahalli04@email.com</p>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/vijayalaxmi-ingalahalli-78340532b" style="font-size: 2rem; color: #00d2ff; margin-right: 20px;"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/vijayalaxmiingalahalli" style="font-size: 2rem; color: #fff;"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <p style="margin-bottom: 15px;"> <strong>Vijayalaxmi Ingalahalli</strong></p>
+                    <input type="email" id="u-email" placeholder="Your Email Address">
+                    <textarea id="u-msg" rows="4" placeholder="Your Message..."></textarea>
+                    <button class="btn btn-primary" style="width: 100%; border:none; cursor:pointer;" onclick="sendMail()">Send Email Now</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="chat-trigger" onclick="toggleChat()"><i class="fas fa-robot"></i></div>
+    <div id="chat-widget">
+        <div class="chat-header"><span>Portfolio AI Assistant</span> <span onclick="toggleChat()" style="cursor:pointer; font-size: 1.5rem;">×</span></div>
+        <div class="chat-messages" id="chat-box">
+            <p>Hi! I'm Vijayalaxmi's assistant. Ask me about her skills, projects, or experience!</p>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-in" placeholder="Ask something..." onkeypress="if(event.key==='Enter') chatResponse()">
+        </div>
+    </div>
+
+    <script>
+        VANTA.NET({ el: "#vanta-bg", mouseControls: true, color: 0x00d2ff, backgroundColor: 0x0b0e14, points: 10.00 });
+        lucide.createIcons();
+
+        const reveal = () => {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('active');
+            });
+        };
+        window.addEventListener('scroll', reveal);
+        reveal();
+
+        function sendMail() {
+            const email = document.getElementById('u-email').value;
+            const msg = document.getElementById('u-msg').value;
+            window.location.href = `mailto:vijayalaxmiingalahalli04@email.com?subject=Portfolio Inquiry&body=From: ${email}%0D%0A%0D%0A${msg}`;
+        }
+
+        function toggleChat() { 
+            const c = document.getElementById('chat-widget');
+            c.style.display = (c.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function chatResponse() {
+            const input = document.getElementById('chat-in');
+            const box = document.getElementById('chat-box');
+            const val = input.value.toLowerCase();
+            if(!val) return;
+            box.innerHTML += `<p style="text-align:right; border-left:none; border-right:3px solid #00d2ff; background:rgba(0,210,255,0.1);"><b>You:</b> ${input.value}</p>`;
+            let res = "Try asking about 'skills', 'projects', or 'experience'.";
+            if(val.includes('skill')) res = "Python, SQL, ML, Power BI, etc.";
+            if(val.includes('experience')) res = "She is currently an AI Engineer Intern at Wizzybox and 1M1B.";
+            if(val.includes('project')) res = "She has 4 projects including Heart Disease Detection and Resume Screening.";
+            box.innerHTML += `<p><b>AI:</b> ${res}</p>`;
+            input.value = '';
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>
